@@ -1,0 +1,202 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Database</title>
+    <link rel="stylesheet" type="text/css" href="/style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/all.css" crossorigin="anonymous">
+    
+</head>
+<body>
+    
+   
+    <div class="header">
+        <h1 class="mainHead" style="font-size: 40px">Movie Database</h1>
+        <h2 class="mainSlogan">&ldquo;Search &amp; Save!&rdquo;</h2>
+    </div>
+    
+    <div class="mainBodyContent">
+        <div class="leftCol">
+           
+            <div class="searchBox">
+                <h1 class="searchHead">Search For...</h1>
+                <div class="searchContent" >
+                    <form action="/search" method="GET" style="display: flex; flex-direction: column;">
+                        <label for="movieTitle" class="movieCaption">Enter a movie title here</label>
+                        <div style="display: flex;">
+                            <input type="text" id="movieTitle" name="title" placeholder="Enter movie title" required>
+                            <button type="submit">Search</button>
+                        </div>
+                    </form>
+
+                    <% if (movieDetails) { %>
+                        <h2 class="movieDetailsHead">Movie Details</h2>
+                        <p style="font-size: 20px">Title: <span id="<%= movieDetails.Title %>"><%= movieDetails.Title %></span></p>
+                        <p style="font-size: 20px">Director: <%= movieDetails.Director %></p>
+                        <p style="font-size: 20px">Release Date: <span id="ReleaseDate"><%= movieDetails.Released %></span></p>
+                    <% } %>
+
+                    <form action="/save-movie" method="POST">
+                        <input type="hidden" name="title" value="<%= movieDetails.Title %>">
+                        <input type="hidden" name="director" value="<%= movieDetails.Director %>">
+                        <input type="hidden" name="releaseDate" value="<%= movieDetails.Released %>">
+                        <input type="hidden" name="year" value="<%= movieDetails.Year %>">
+                        <input type="hidden" name="runtime" value="<%= movieDetails.Runtime %>">
+                        <input type="hidden" name="imdbRating" value="<%= movieDetails.imdbRating %>">
+                        <input type="hidden" name="boxOffice" value="<%= movieDetails.BoxOffice %>">
+                        <input type="hidden" name="poster" value="<%= movieDetails.Poster %>">
+
+                        <!-- Add other hidden fields for additional properties as needed -->
+                        <div style="text-align: center;">
+                            <button type="submit" style="margin: auto; width: 30%; height: 40px">Save Movie</button>
+                        </div>
+                    </form>
+                    
+                    <div id="errorDiv">
+                        <% if (flashMessages.error) { %>
+                            <div style="color: black; margin: auto; background-color: lightcoral; text-align: center; width: 60%; margin-top: 10px; border-radius: 30px; padding: 5px">
+                               <p><%= flashMessages.error %></p>
+                                
+                            </div>
+                        <% } %>
+                    </div>
+                    
+                    
+                </div>
+            </div>
+            
+            <div class="movieListCol">
+                <h1 class="searchHead">Your Saved Movies</h1>
+                <div class="sortButtons">
+                    <form action="/listview" method="POST">
+                        <button type="submit" style="margin: auto; width: 100px">
+                            <% if (!isListView) { %>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-card-list" viewBox="0 0 16 16">
+      <path d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2z"/>
+      <path d="M5 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 5 8m0-2.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5m0 5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5m-1-5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0M4 8a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0m0 2.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0"/>
+    </svg>
+                            <% } else { %>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-grid" viewBox="0 0 16 16">
+      <path d="M1 2.5A1.5 1.5 0 0 1 2.5 1h3A1.5 1.5 0 0 1 7 2.5v3A1.5 1.5 0 0 1 5.5 7h-3A1.5 1.5 0 0 1 1 5.5zM2.5 2a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5zm6.5.5A1.5 1.5 0 0 1 10.5 1h3A1.5 1.5 0 0 1 15 2.5v3A1.5 1.5 0 0 1 13.5 7h-3A1.5 1.5 0 0 1 9 5.5zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5zM1 10.5A1.5 1.5 0 0 1 2.5 9h3A1.5 1.5 0 0 1 7 10.5v3A1.5 1.5 0 0 1 5.5 15h-3A1.5 1.5 0 0 1 1 13.5zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5zm6.5.5A1.5 1.5 0 0 1 10.5 9h3a1.5 1.5 0 0 1 1.5 1.5v3a1.5 1.5 0 0 1-1.5 1.5h-3A1.5 1.5 0 0 1 9 13.5zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5z"/>
+    </svg> 
+                            <% } %>
+                        </button>
+                    </form>
+                </div>
+
+                <div class="sortButtons">
+                    <form action="/sortalpha" method="POST">
+                        <button type="submit">Sort A–Z</button>
+                    </form>
+                    <form action="/sortboxoffice" method="POST">
+                        <button type="submit">Sort $</button>
+                    </form>
+                    <form action="/sortrating" method="POST">
+                        <button type="submit">Sort by Rating</button>
+                    </form>
+                    <form action="/clearsort" method="POST">
+                        <button type="submit">Clear</button>
+                    </form>
+
+                </div>
+                <div class="savedMoviePosters <%= isListView ? 'list-view' : 'icon-view' %>">
+                    <% if (!isListView) { %>
+                        <% movies.forEach(movie => { %>  
+                            <a href="/movie/<%= movie._id %>">
+                                <img src="<%= movie.posterImage %>" alt="<%= movie.movieTitle %>" class="savedMovieImage">
+                            </a>
+                        <% }); %>
+                    <% } else { %>
+                        <% movies.forEach(movie => { %>
+                            <p style="margin: 0px; margin-bottom: 10px"><span style="font-weight: bold"><%= movie.movieTitle %></span> (<%= movie.movieYear %>) — dir. <%= movie.movieDirector %> — <%= movie.boxOffice %> — <%= movie.myRating %> star(s) </p>
+                        <% }); %>
+                    <% } %>
+                </div>
+                <div class="aggregateDiv">
+                    <p>You have rated <%= totalMovies %> movies an average of <%= avgRatings %> stars.</p>
+                </div>
+            </div>
+            
+            <div class="topMoviesContent">
+                <h2 class="topMoviesHeading">Top Movies</h2>
+                <div class="topMovies">
+                    <div class="topMovieTagline">
+                        <p style="margin: auto; padding-left: 10px; padding-top: 10px; padding-bottom: 10px; font-size: 20px">You rated these movies 5 stars!</p>
+                    </div>
+                        <% movies.forEach(movie => { %>
+                            <% if (parseInt(movie.myRating) === 5) { %>
+                                <p class="topMovieLI"><%= movie.movieTitle %> — dir. <%= movie.movieDirector %></p>
+                           
+                            <% } %>
+                        <% }); %>
+                </div>
+            </div>
+            
+        </div>
+        
+        <div style="background-color: #444444; height: auto; width: 3px; margin-top: 10px"></div>
+        
+        <div class="movieList" style="flex-direction: column">
+           
+            <h1 class="searchHead">Your Saved Movies</h1>
+            
+            <div class="sortButtons">
+                <form action="/listview" method="POST">
+                    <button type="submit" style="margin: auto; width: 100px">
+                        <% if (!isListView) { %>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-card-list" viewBox="0 0 16 16">
+  <path d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2z"/>
+  <path d="M5 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 5 8m0-2.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5m0 5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5m-1-5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0M4 8a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0m0 2.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0"/>
+</svg>
+                        <% } else { %>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-grid" viewBox="0 0 16 16">
+  <path d="M1 2.5A1.5 1.5 0 0 1 2.5 1h3A1.5 1.5 0 0 1 7 2.5v3A1.5 1.5 0 0 1 5.5 7h-3A1.5 1.5 0 0 1 1 5.5zM2.5 2a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5zm6.5.5A1.5 1.5 0 0 1 10.5 1h3A1.5 1.5 0 0 1 15 2.5v3A1.5 1.5 0 0 1 13.5 7h-3A1.5 1.5 0 0 1 9 5.5zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5zM1 10.5A1.5 1.5 0 0 1 2.5 9h3A1.5 1.5 0 0 1 7 10.5v3A1.5 1.5 0 0 1 5.5 15h-3A1.5 1.5 0 0 1 1 13.5zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5zm6.5.5A1.5 1.5 0 0 1 10.5 9h3a1.5 1.5 0 0 1 1.5 1.5v3a1.5 1.5 0 0 1-1.5 1.5h-3A1.5 1.5 0 0 1 9 13.5zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5z"/>
+</svg> 
+                        <% } %>
+                    </button>
+                </form>
+            </div>
+            
+            <div class="sortButtons">
+                <form action="/sortalpha" method="POST">
+                    <button type="submit">Sort A–Z</button>
+                </form>
+                <form action="/sortboxoffice" method="POST">
+                    <button type="submit">Sort $</button>
+                </form>
+                <form action="/sortrating" method="POST">
+                    <button type="submit">Sort by Rating</button>
+                </form>
+                <form action="/clearsort" method="POST">
+                    <button type="submit">Clear</button>
+                </form>
+                
+            </div>
+            
+            <div class="savedMoviePosters <%= isListView ? 'list-view' : 'icon-view' %>">
+                <% if (!isListView) { %>
+                    <% movies.forEach(movie => { %>  
+                        <a href="/movie/<%= movie._id %>">
+                            <img src="<%= movie.posterImage %>" alt="<%= movie.movieTitle %>" class="savedMovieImage">
+                        </a>
+                    <% }); %>
+                <% } else { %>
+                    <% movies.forEach(movie => { %>
+                <p style="margin: 0px; margin-bottom: 10px"><span style="font-weight: bold"><a href="/movie/<%= movie._id %>"><%= movie.movieTitle %></a></span> (<%= movie.movieYear %>) — dir. <%= movie.movieDirector %> — <%= movie.boxOffice %> — <%= movie.myRating %> star(s) </p>
+                    <% }); %>
+                <% } %>
+            </div>
+            
+            <div class="aggregateDiv">
+                <p>You have rated <%= totalMovies %> movies an average of <%= avgRatings %> stars.</p>
+            </div>
+        </div>
+        
+    </div>
+    
+</body>
+</html>

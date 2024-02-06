@@ -1,0 +1,246 @@
+ejs
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Movie Database</title>
+</head>
+<body>
+    <div style="display: flex; column-gap: 100px">
+        <div style="flex-direction: row">
+            <h1>Movie Database</h1>
+
+        <!-- Search form -->
+            <form action="/search" method="GET">
+                <label for="movieTitle">Search for a movie:</label>
+                <input type="text" id="movieTitle" name="title" placeholder="Enter movie title" required>
+                <button type="submit">Search</button>
+            </form>
+
+            <% if (movieDetails) { %>
+                <h2>Movie Details</h2>
+                <p>Title: <span id="<%= movieDetails.Title %>"><%= movieDetails.Title %></span></p>
+                <p>Director: <%= movieDetails.Director %></p>
+                <p>Release Date: <span id="ReleaseDate"><%= movieDetails.ReleaseDate %></span></p>
+            <% } %>
+            
+            <form action="/save-movie" method="POST">
+                <input type="hidden" name="title" value="<%= movieDetails.Title %>">
+                <input type="hidden" name="director" value="<%= movieDetails.Director %>">
+                <input type="hidden" name="releaseDate" value="<%= movieDetails.ReleaseDate %>">
+                <input type="hidden" name="year" value="<%= movieDetails.Year %>">
+                <input type="hidden" name="runtime" value="<%= movieDetails.Runtime %>">
+                <input type="hidden" name="imdbRating" value="<%= movieDetails.imdbRating %>">
+                <input type="hidden" name="boxOffice" value="<%= movieDetails.BoxOffice %>">
+                <input type="hidden" name="myRating" value="<%= movieDetails.myRating %>">
+                <!-- Add other hidden fields for additional properties as needed -->
+                <button type="submit">Save Movie</button>
+            </form>
+        </div>
+        <div style="flex-direction: row">
+            <h2>Movie List</h2>
+<ul>
+    <% movies.forEach(movie => { %>
+      <li><%= movie.movieTitle %></li>
+    <% }); %>
+  </ul>
+        </div>
+    </div>
+    
+    
+    
+
+
+
+
+</body>
+</html>
+
+
+
+controller
+
+//import Player from '../Models/MainModel.js';
+
+// controllers/mainController.js
+
+//xxx
+
+import SavedMovie from '../models/SavedMovies.js';
+
+import fetch from 'node-fetch'; // Import node-fetch to make HTTP requests
+let movieDetails = {};
+let movies = {};
+export const home = async (req, res) => {
+    movies = await SavedMovie.find();
+  res.render('index', { title: "movie", movieDetails, movies } );
+};
+
+/*
+export const addMovie = async (req, res) => {
+    try {
+        const title = req.body.movieTitle; // Assuming the movie title is passed in the request body
+
+        // Fetch movie details from OMDB API
+        const response = await fetch(`http://www.omdbapi.com/?t=${title}&apikey=73144de7`);
+        const movieDetails = await response.json();
+
+        // Extract relevant information from the API response
+        const newMovie = new SavedMovie({
+            movieTitle: movieDetails.Title,
+            movieYear: movieDetails.Year,
+            movieRuntime: movieDetails.Runtime,
+            movieDirector: movieDetails.Director,
+            imdbRating: movieDetails.imdbRating,
+            boxOffice: movieDetails.BoxOffice,
+            personalRating: req.body.personalRating // Assuming personalRating is passed in the request body
+        });
+
+        // Save the new movie to the database
+        await newMovie.save();
+
+        res.redirect('/');
+    } catch (error) {
+        res.status(500).json({ error: 'Error adding new movie' });
+    }
+};
+
+export const saveMovie = async (req, res) => {
+    try {
+        const newMovie = new SavedMovie({
+            movieTitle: req.body.movieTitle,
+            movieYear: req.body.movieYear,
+            movieRuntime: req.body.movieRuntime,
+            movieDirector: req.body.movieDirector,
+            imdbRating: req.body.imdbRating,
+            boxOffice: req.body.boxOffice,
+            personalRating: req.body.personalRating
+        });
+
+        await newMovie.save();
+        res.redirect('/');
+    } catch (error) {
+        res.status(500).json({ error: 'Error saving movie' });
+    }
+};
+*/
+
+
+
+export const searchMovie = async (req, res) => {
+    const title = req.query.title;
+    
+    console.log(movies);
+
+    try {
+        const response = await fetch(`http://www.omdbapi.com/?t=${title}&apikey=73144de7`);
+         movieDetails = await response.json();
+
+        // Render searchResults.ejs with movie details
+        res.render('index', {
+            title: "Search Results",
+            movieDetails: {
+                Title: movieDetails.Title,
+                Director: movieDetails.Director,
+                ReleaseDate: movieDetails.Released,
+                Year: movieDetails.Year,
+                Runtime: movieDetails.Runtime,
+                imdbRating: movieDetails.imdbRating,
+                BoxOffice: movieDetails.BoxOffice,
+                myRating: ""
+            },
+            movies
+        });
+    } catch (error) {
+        res.status(500).send('Error fetching data');
+    }
+};
+
+export const saveMovie = async (req, res) => {
+    console.log(req.body);
+    try {
+        const newMovie = new SavedMovie({
+            movieTitle: req.body.title,
+            movieYear: req.body.year,
+            movieRuntime: req.body.runtime,
+            movieDirector: req.body.director,
+            imdbRating: req.body.imdbRating,
+            boxOffice: req.body.boxOffice,
+            myRating: req.body.myRating,
+            movieRelease: req.body.releaseDate
+        });
+
+        await newMovie.save();
+        res.redirect('/');
+    }  
+    catch (error) {
+        res.status(500).json({ error: 'Error saving movie' });
+    }
+    
+
+};
+
+//export const loadMovies = async (req, res) => {
+//  try {
+//    const movies = await SavedMovie.find();
+//    res.render('index', { title: "Home", movieDetails: {}, movies });
+//  } catch (error) {
+//    res.status(500).json({ error: 'Error fetching movies' });
+//  }
+//};
+
+
+//export const updateMovie = async (req, res) => {
+//    try {
+//        const movieId = req.params.id;
+//        const updateData = {
+//            myRating: req.body.myRating
+//        };
+//        
+//        await SavedMovie.findOneAndUpdate({ _id: movieId }, updateData);
+//    
+//        const updatedMovies = await SavedMovie.find();
+//    
+//        res.render('index');
+//    } catch (error) { 
+//        res.status(500).json({ error: 'Error updating movie '});
+//    }    
+//};
+//
+//export const sort = async (req, res) => {
+//  const sortType = req.params.sortType || "";
+//  if (sortType === 'title') {
+//    sortingByTitle === 1 ? sortingByTitle = -1 : sortingByTitle = 1;
+//    sortingByYear = 0;
+//    sortingByRating = 0;
+//  }
+//  else if (sortType === 'year') {
+//    sortingByYear === 1 ? sortingByYear = -1 : sortingByYear = 1;
+//    sortingByTitle = 0;
+//    sortingByRating = 0;
+//  }
+//  else if (sortType === 'rating') {
+//    sortingByRating === 1 ? sortingByRating = -1 : sortingByRating = 1;
+//    sortingByTitle = 0;
+//    sortingByYear = 0;
+//  }
+//  
+//  try {
+//    let sortCriteria = {};
+//
+//    if (sortingByTitle === 1) sortCriteria = { title: 1 }; 
+//    else if (sortingByTitle === -1) sortCriteria = { title: -1 }; 
+//    else if (sortingByYear === 1) sortCriteria = { year: 1 };
+//    else if (sortingByYear === -1) sortCriteria = { year: -1 }; 
+//    else if (sortingByRating === 1) sortCriteria = { rating: 1 };
+//    else if (sortingByRating === -1) sortCriteria = { rating: -1 };
+//
+//    const movies = await Player.find().sort(sortCriteria);
+//    res.render('index', { title: "INDEX", movies, sortingByTitle, sortingByYear, sortingByRating });
+//  } catch (error) {
+//    res.status(500).json({ error: 'Error fetching users' });
+//  }
+//};
+//

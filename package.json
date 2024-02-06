@@ -1,0 +1,28 @@
+{
+  "name": "movie-project---source",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "nodemon app.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^6.5.1",
+    "bootstrap": "^5.3.2",
+    "connect-flash": "^0.1.1",
+    "dotenv": "^16.4.1",
+    "ejs": "^3.1.9",
+    "express": "^4.18.2",
+    "express-session": "^1.17.3",
+    "flash": "^1.1.0",
+    "font-awesome": "^4.7.0",
+    "install": "^0.13.0",
+    "mongoose": "^8.1.1",
+    "node-fetch": "^3.3.2",
+    "npm": "^10.4.0"
+  }
+}

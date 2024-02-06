@@ -1,0 +1,101 @@
+body {
+    width: 60%; 
+    margin-left: 20%;
+/*    background-color: #58707d;*/
+    background-color: #d9d9d9;
+}
+
+.movieDetailsHeader {
+    padding: 5px;
+    text-align: center; 
+    background-color: #0a2a3c;
+    color: #EAB56F;
+    font-family: Lemon Milk;
+    font-size: 20px;
+}
+
+
+.movieDetailsContent {
+    background-color: #c6c6c6; 
+/*    background-color: #58707d;*/
+/*    background-color: #d9d9d9;*/
+    margin-top: -20px;
+    z-index: 1;
+/*    position: relative;*/
+    display: flex;
+    column-gap: 30px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 30px;
+    font-family: Ibarra Real Nova;
+}
+
+img {
+    flex: 4; 
+    width: 100%; 
+    max-width: 100%; /* Set the maximum width to maintain proportions */
+    max-height: 100%;
+
+    margin-top: 45px;
+    border-radius: 10px;
+    
+}
+
+.movieDetailsInfo {
+    flex: 5;
+    width: 100%;
+    margin-top: 45px;
+    padding-left: 10px;
+    padding-right: 10px;
+    height: auto;
+    border-radius: 10px;
+}
+
+.backToHome {
+    background-color: #254252;
+    width: 200px;
+    height: 40px;
+    text-align: center;
+    margin: auto;
+    line-height: 40px;
+    margin-top: 10px;
+    z-index: 2;
+    position: relative;
+    border-radius: 10px;
+}
+
+.backHomeLink {
+    color: #EAB56F;
+    font-size: 20px;
+    font-family: Ibarra Real Nova;
+}
+
+.buttonDiv {
+    display: flex;
+/*    justify-content: center;*/
+    column-gap: 20px;
+}
+
+button {
+    height: 30px;
+    width: 100px;
+}
+
+
+@media screen and (max-width: 1050px) {
+    .movieDetailsContent {
+        flex-direction: column;
+        align-items: center;
+    }
+    img {
+        width: 180px;
+    }
+    .movieDetailsInfo {
+        text-align: center;
+        margin-top: 0;
+    }
+    .buttonDiv {
+        justify-content: center;
+    }
+    /* Add other styles as needed for smaller screens */
+}

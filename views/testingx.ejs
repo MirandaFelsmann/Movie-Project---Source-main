@@ -1,0 +1,137 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Database</title>
+    <link rel="stylesheet" type="text/css" href="/styletest.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/all.css" crossorigin="anonymous">
+    
+</head>
+<body>
+    <div class="header" style="background-color: red">
+        <h1 class="mainHead" style="font-size: 40px">Movie Database</h1>
+        <h2 class="mainSlogan">&ldquo;Search &amp; Save!&rdquo;</h2>
+    </div>
+    
+    
+    <div style="background-color: lightgrey; height: 300px; border: 5px solid black; position: relative; margin-top: 20px; border-bottom: none">
+       
+       
+        <div style="border-top: 5px solid black; width: 18%; position: absolute; top: 300px; right: -4.5px; ">
+        </div>
+        <div style="border-top: 5px solid black; width: 18%; position: absolute; top: 300px; left: 0px">
+        </div>
+        <div style="display: flex; justify-content: center; column-gap: 10px">
+            <div style="background-color: lightblue; height: 100px; width: 20%; position: relative; top: 250px;"></div>
+            <div style="background-color: lightblue; height: 100px; width: 20%; position: relative; top: 250px;"></div>
+            <div style="background-color: lightblue; height: 100px; width: 20%; position: relative; top: 250px;"></div>
+        </div>
+        
+    </div>
+    
+    <div style="display: flex; justify-content: center">
+        <form action="/search" method="GET" style="display: flex; flex-direction: column; margin-top: -300px; z-index: 1; justify-content: center; width: 300px">
+                        <label for="movieTitle" class="movieCaption">Enter a movie title here</label>
+                        <div style="display: flex;">
+                            <input type="text" id="movieTitle" name="title" placeholder="Enter movie title" required>
+                            <button type="submit">Search</button>
+                        </div>
+                    </form>
+    </div>
+    
+    
+    
+<!--
+    
+    <div class="test">
+        <a class="test" href="/testing">Back to Home</a>
+    </div>
+    
+    
+    
+    <div class="mainBodyContent">
+        <div style="display: flex; flex-direction: column; flex: 3">
+            <div class="search" style="flex-direction: row">
+                <h1 class="searchHead">Search For...</h1>
+
+      
+                <div class="searchContent" >
+                    <form action="/search" method="GET" style="display: flex; flex-direction: column;">
+                        <label for="movieTitle" class="movieCaption">Enter a movie title here</label>
+                        <div style="display: flex;">
+                            <input type="text" id="movieTitle" name="title" placeholder="Enter movie title" required>
+                            <button type="submit">Search</button>
+                        </div>
+                    </form>
+
+                   
+                    <form action="/save-movie" method="POST">
+                        
+ 
+                        <div style="text-align: center;">
+                            <button type="submit" style="margin: auto; width: 30%; height: 40px">Save Movie</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="topMoviesContent">
+                <h2 style="writing-mode: vertical-rl;
+text-orientation: upright; font-family: Lemon Milk; background-color: #254252; padding: 10px; margin-left: 10px; color: #EAB56F; border-radius: 10px">Top Movies</h2>
+                <div class="topMovies" style="width: 100%">
+                    <div style="background-color: #254252; color: #EAB56F; font-family: Ibarra Real Nova; font-style: italic;  border-radius: 10px; margin-bottom: 30px; margin-right: 20px">
+                        <p style="margin: auto; padding-left: 10px; padding-top: 10px; padding-bottom: 10px; font-size: 20px">You rated these movies 5 stars!</p>
+                    </div>
+
+                    
+                </div>
+            
+
+            </div>
+        </div>
+        <div class="movieList" style="flex-direction: column">
+            <h1 class="searchHead">Your Saved Movies</h1>
+            <div class="sortButtons">
+                <form action="/listview" method="POST">
+                    <button type="submit" style="margin: auto; width: 100px">
+                       
+                    </button>
+                </form>
+            </div>
+            
+            <div class="sortButtons">
+                <form action="/sortalpha" method="POST">
+                    <button type="submit">Sort A–Z</button>
+                </form>
+                <form action="/sortboxoffice" method="POST">
+                    <button type="submit">Sort $</button>
+                </form>
+                <form action="/sortrating" method="POST">
+                    <button type="submit">Sort by Rating</button>
+                </form>
+                <form action="/clearsort" method="POST">
+                    <button type="submit">Clear</button>
+                </form>
+                
+            </div>
+            <div class="savedMoviePosters">
+               
+            </div>
+            <div class="aggregateDiv" style="text-align: center; background-color: #254252; padding: 10px; border-radius: 10px; color: #EAB56F;  font-size: 18px; width: 80%; margin: auto; margin-bottom: 15px">
+                <p>You have rated movies an average of stars.</p>
+            </div>
+        </div>
+    </div>
+    
+    
+    
+-->
+
+
+
+
+</body>
+</html>
