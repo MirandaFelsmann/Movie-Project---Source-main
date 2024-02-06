@@ -149,14 +149,6 @@
 </svg>
                     </div>
                 <% } %>
-                <div id="errorDiv">
-                        <% if (flashMessages.error) { %>
-                            <div style="color: black; margin: auto; background-color: lightcoral; text-align: center; width: 60%; margin-top: 10px; border-radius: 30px; padding: 5px">
-                               <p><%= flashMessages.error %></p>
-                                
-                            </div>
-                        <% } %>
-                    </div>
                 <div class="buttonDiv">
                     <button onclick="window.location.href='/rate/<%= movieDetails._id %>'">Rate (+)</button>
                     <button onclick="window.location.href='/delete/<%= movieDetails._id %>'">Delete Movie</button>

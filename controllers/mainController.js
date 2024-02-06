@@ -122,6 +122,7 @@ export const updateRating = async (req, res) => {
             currMovie.myRating++;
         } //ratings update between 1 and 5
         else {
+            return;
         } //if already at 5, no result
         await currMovie.save(); //make sure new rating is saved
         const updatedMovies = await SavedMovie.find(); //make sure new info is echoed in database
